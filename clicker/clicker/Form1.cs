@@ -15,15 +15,28 @@ namespace clicker // Namnet på projektet.
     public partial class Form1 : Form // Vad är det för slags projekt? I detta fall Form.
     {
         Timer timer = new Timer(); // Gör timern till en allmän timer.
+        Timer timer2 = new Timer();
+        int xy = 2000; // Kak tid
         
         public Form1() // Vid start händer nedan.
         {
-            
+           
             InitializeComponent();
             timer.Tick += new EventHandler(Timer_Tick); //Allt som variabeln timer gör ska hända i en void med detta namn.
             timer.Interval = (1000); // Varje 1000 milisekund, alltså varje sekund.
             timer.Enabled = true; // När programmet startar aktiveras timern.
             timer.Start(); // Timern startar då programmet startar.
+            pictureBox1.Load("http://www.pngall.com/wp-content/uploads/2016/07/Cookie-PNG-Clipart-180x180.png");
+            timer2.Tick += new EventHandler(Cookie_Tick);
+            timer2.Interval = (xy);
+            timer2.Enabled = true;
+            timer2.Start();
+            this.textBox2.KeyPress += new KeyPressEventHandler(TextBox2_KeyPress);
+
+        }
+        void Cookie_Tick(object sender, EventArgs e) // För att skriva för kakor
+        {
+            textBox2.Clear();
         }
         
          void Timer_Tick(object sender, EventArgs e) // Varje sekund händer allting här inne.
@@ -34,10 +47,11 @@ namespace clicker // Namnet på projektet.
             label3.Text = "Kakor i sekunden = " + kakaisek;
             label2.Text = cks + "st.";
             label4.Text = xx + "st.";
-            label5.Text = kaka3 + "st.";
+            label5.Text = (kaka3/2) + "st.";
             button5.Text = "[" + kakasek3 + "]" + " +2 kaka/s"; //Samma kod fast med knapp texten.
             button2.Text = "[" + kakasek + "]" + " +1 Kaka / klick";
             button3.Text = "[" + kakasek2 + "]" + " +1 kaka/s";
+            label8.Text = "Köpt: " + bought;
         }
 
         private void Form1_Load(object sender, EventArgs e) //När programmet laddas, används inte just nu.
@@ -50,17 +64,10 @@ namespace clicker // Namnet på projektet.
             // Anvädns inte.
         }
 
-        public int antKakor = 0; // Två olika variabler för att hålla koll på antalet kakor.
+        public double antKakor = 0; // Två olika variabler för att hålla koll på antalet kakor.
         public int xx = 0; // Denna för att räkna ihop med annan kod antalet kakor i sekunden.
         
         
-
-        public void Button1_Click(object sender, EventArgs kakor) // Den stora "Klicka" knappen.
-        {
-            
-            label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten varje gång man klickar knappen.
-            antKakor += 1 + cks; //Lägger till 1 + extra kakorna om man har mer kakor / klick uppgraderingar.
-        }
 
         public void Form1_KeyPress(object sender, KeyEventArgs click) //Om man klickar en tangent i Windows Form. Används inte just nu.
         {
@@ -192,6 +199,59 @@ namespace clicker // Namnet på projektet.
             }
 
         }
+
+        public void PictureBox1_Click(object sender, EventArgs e)
+        {
+            label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten varje gång man klickar knappen.
+            antKakor += 1 + cks; //Lägger till 1 + extra kakorna om man har mer kakor / klick uppgraderingar.
+        }
+        int yx = 3;
         
+        private void TextBox2_TextChanged(object sender, EventArgs e) //Lådan man skriver i.
+        {
+            textBox2.MaxLength = yx;
+            if (bought == true) // Om man köpt uppgraderingen...
+            {
+                label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten när man skriver.
+                antKakor += 1; //Lägger till kakor.
+                
+            }
+            else if(bought == false) // Har man inte köpt den...
+            {
+                MessageBox.Show("Du har inte köpt uppgraderingen!");
+            }
+           
+            
+            
+         
+        }
+        private void TextBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Back)
+            {
+                MessageBox.Show("Inte tillåtet!");
+                e.Handled = true;
+            }
+        }
+        bool bought = false; // Default falskt.
+        private void Button1_Click(object sender, EventArgs e) // Köp knappen "skriv för +1 kaka".
+        {
+            int price = 250; // Sätter priset.
+            if(antKakor>=price&&bought == false) // Har man råd och inte köpt...
+            {
+                antKakor -= price;
+                bought = true;
+                label8.Text = "Köpt: " + bought;
+            }
+            else if(antKakor!=price) // Har man inte råd...
+                {
+                MessageBox.Show("Du har inte råd!");
+                }
+            else if(bought == true) // Har man redan köpt...
+            {
+                MessageBox.Show("Du har redan köpt den!");
+            }
+            
+        }
     }
 }
