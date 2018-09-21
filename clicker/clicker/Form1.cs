@@ -15,7 +15,8 @@ namespace clicker // Namnet på projektet.
     public partial class Form1 : Form // Vad är det för slags projekt? I detta fall Form.
     {
         Timer timer = new Timer(); // Gör timern till en allmän timer.
-        Timer timer2 = new Timer();
+        Timer timer2 = new Timer(); // Timer för att rensa skriv fältet för att få kakor uppgraderingen.
+        Timer challenge = new Timer(); // Timer för challenge.
         int xy = 2000; // Kak tid
         
         public Form1() // Vid start händer nedan.
@@ -31,9 +32,33 @@ namespace clicker // Namnet på projektet.
             timer2.Interval = (xy);
             timer2.Enabled = true;
             timer2.Start();
+           // challenge.Tick += new EventHandler(Challenge_Tick);
+            challenge.Interval = (100);
+            challenge.Enabled = true;
+            challenge.Start();
             this.textBox2.KeyPress += new KeyPressEventHandler(TextBox2_KeyPress);
-
         }
+        public bool challengeon = false; //Ser om en challenge ska sättas igång.
+       /* void Challenge_Tick(object sender, EventArgs e)
+        {
+            if (progressBar1.Value <= 100) // Är det inte 100%...
+            {
+                progressBar1.Value += 1; // +1%
+            }
+            else if(progressBar1.Value == 100) // Är den 100%...
+            {
+                challengeon = true; // challenge sätts igång.
+            }
+            else if(challengeon == true) // Är challenge igång...
+            {
+                progressBar1.Value -= 1; // -1%, som en timer.
+            }
+            else if(challengeon == true && progressBar1.Value <= 0) // Är challenge på och den är 0%...
+            {
+                challengeon = false; // Challenge av.
+            }
+        }*/
+
         void Cookie_Tick(object sender, EventArgs e) // För att skriva för kakor
         {
             textBox2.Clear();
@@ -51,7 +76,15 @@ namespace clicker // Namnet på projektet.
             button5.Text = "[" + kakasek3 + "]" + " +2 kaka/s"; //Samma kod fast med knapp texten.
             button2.Text = "[" + kakasek + "]" + " +1 Kaka / klick";
             button3.Text = "[" + kakasek2 + "]" + " +1 kaka/s";
-            label8.Text = "Köpt: " + bought;
+            if (bought == false)
+            {
+                label8.Text = "Köpt: " + bought;
+            }
+            else if(bought == true)
+            {
+                label8.Text = yx + "st.";
+            }
+            label10.Text = button7st + "st.";
         }
 
         private void Form1_Load(object sender, EventArgs e) //När programmet laddas, används inte just nu.
@@ -66,7 +99,6 @@ namespace clicker // Namnet på projektet.
 
         public double antKakor = 0; // Två olika variabler för att hålla koll på antalet kakor.
         public int xx = 0; // Denna för att räkna ihop med annan kod antalet kakor i sekunden.
-        
         
 
         public void Form1_KeyPress(object sender, KeyEventArgs click) //Om man klickar en tangent i Windows Form. Används inte just nu.
@@ -135,7 +167,7 @@ namespace clicker // Namnet på projektet.
             sf.Filter = "txt files (*.txt)|*.txt"; // Detta ser till att man kan bara spara filen som en .txt fil.
             sf.FilterIndex = 2; // Väljer den andra *.något saken. I detta fall *.txt, alltså .txt fil.
             sf.RestoreDirectory = true; // Öppnar i "default" stället, i detta fall i själva mappen som alla visual studio project filer finns.
-            if(sf.ShowDialog() == DialogResult.OK) //Om stället man valde att spara är korrekt och fungerar, händer...
+            if(sf.ShowDialog() == DialogResult.OK && textBox1.TextLength != 0 && textBox3.TextLength != 0) //Om stället man valde att spara är korrekt och fungerar, händer...
             {
                 using (StreamWriter spara = new StreamWriter(sf.FileName)) //Detta är för att spara alla värden i spelet med samma namn som man angav ovan.
                 {
@@ -148,9 +180,14 @@ namespace clicker // Namnet på projektet.
                     spara.WriteLine(kakasek3);
                     spara.WriteLine(cks);
                     spara.WriteLine(kaka3);
+                    spara.WriteLine(textBox3.Text); //lösenordet.
                     spara.Close(); // Se till att den stängs och att allting "sparas" fullständigt.
                     MessageBox.Show("Sparat!");
                 }
+            }
+            else if(textBox1.TextLength <= 0 && textBox3.TextLength <= 0)
+            {
+                MessageBox.Show("Du måste ha ett namn och lösenord!");
             }
            
         }
@@ -186,18 +223,24 @@ namespace clicker // Namnet på projektet.
             if (df.ShowDialog() == DialogResult.OK) // Om allting ovan är korrekt...
             {
                 string[] lines = File.ReadAllLines(df.FileName); //Läser alla rader i txt filen.
-                MessageBox.Show("Välkommen tillbaka " + lines[0] + "!"); //Första raden i filen. [0] är raden längst upp.
-                xx = Convert.ToInt32(lines[1]); // Andra raden i filen.
-                // xx är en Int fil, ReadAllLines är String default. Måste konverteras!
-                // Detta behövs för alla Int variabler.
-                antKakor = Convert.ToInt32(lines[2]); // Du fattar.
-                kakasek = Convert.ToInt32(lines[3]);
-                kakasek2 = Convert.ToInt32(lines[4]);
-                kakasek3 = Convert.ToInt32(lines[5]);
-                cks = Convert.ToInt32(lines[6]);
-                kaka3 = Convert.ToInt32(lines[7]);
+                if (textBox3.Text == lines[8]) //stämmer lösenord lådan med lösenordet i filen, eller om filen inte har lösenord...
+                {
+                    MessageBox.Show("Välkommen tillbaka " + lines[0] + "!"); //Första raden i filen. [0] är raden längst upp.
+                    xx = Convert.ToInt32(lines[1]); // Andra raden i filen.
+                    // xx är en Int fil, ReadAllLines är String default. Måste konverteras!
+                    // Detta behövs för alla Int variabler.
+                    antKakor = Convert.ToInt32(lines[2]); // Du fattar.
+                    kakasek = Convert.ToInt32(lines[3]);
+                    kakasek2 = Convert.ToInt32(lines[4]);
+                    kakasek3 = Convert.ToInt32(lines[5]);
+                    cks = Convert.ToInt32(lines[6]);
+                    kaka3 = Convert.ToInt32(lines[7]);
+                }
+                else // har filen lösenord och man skrivit fel lösenord...
+                {
+                    MessageBox.Show("Fel lösenord!");
+                }
             }
-
         }
 
         public void PictureBox1_Click(object sender, EventArgs e)
@@ -205,15 +248,16 @@ namespace clicker // Namnet på projektet.
             label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten varje gång man klickar knappen.
             antKakor += 1 + cks; //Lägger till 1 + extra kakorna om man har mer kakor / klick uppgraderingar.
         }
-        int yx = 3;
+        int yx = 3; // hur många bokstäver man kan skriva i lådan.
         
         private void TextBox2_TextChanged(object sender, EventArgs e) //Lådan man skriver i.
         {
-            textBox2.MaxLength = yx;
+            textBox2.MaxLength = yx; //Max antal bokstäver i lådan.
             if (bought == true) // Om man köpt uppgraderingen...
             {
                 label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten när man skriver.
                 antKakor += 1; //Lägger till kakor.
+                label8.Text = yx + "st.";
                 
             }
             else if(bought == false) // Har man inte köpt den...
@@ -237,21 +281,52 @@ namespace clicker // Namnet på projektet.
         private void Button1_Click(object sender, EventArgs e) // Köp knappen "skriv för +1 kaka".
         {
             int price = 250; // Sätter priset.
-            if(antKakor>=price&&bought == false) // Har man råd och inte köpt...
+            if (antKakor >= price && bought == false) // Har man råd och inte köpt...
             {
                 antKakor -= price;
                 bought = true;
                 label8.Text = "Köpt: " + bought;
             }
-            else if(antKakor!=price) // Har man inte råd...
-                {
+            else if (antKakor != price) // Har man inte råd...
+            {
                 MessageBox.Show("Du har inte råd!");
-                }
-            else if(bought == true) // Har man redan köpt...
+            }
+            else if (bought == true) // Har man redan köpt...
             {
                 MessageBox.Show("Du har redan köpt den!");
             }
-            
+
+        }
+        int button7st = 0;
+        int button7pris = 100;
+        private void Button7_Click(object sender, EventArgs e) // +1 skriv knappen.
+        {
+            if (button7st <= 7 && antKakor>=button7pris) // har man 7 eller mindre köpt på denna och har råd...
+            {
+                antKakor -= button7pris;
+                button7pris += button7pris / 2;
+                label10.Text = button7st + "st."; //Uppdaterar texten enligt antalet gånger man köpt den.
+                button7st++;
+                yx++;
+            }
+            else // annars...
+            {
+                MessageBox.Show("Du har inte råd / Du har max uppgraderat! (7st)");
+            }
+        }
+
+        private void TextBox4_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox4.Text == "kakpower")
+            {
+                antKakor += 1000;
+                textBox4.Clear();
+            }
+        }
+
+        private void Label11_Click(object sender, EventArgs e)
+        {
+            //Anänds inte just nu...
         }
     }
 }
