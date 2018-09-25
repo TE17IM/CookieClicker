@@ -28,3 +28,13 @@ C:\Users\Adam Norberg\Source\Repos\CookieClicker\clicker\clicker\obj\Debug\click
 C:\Users\Adam Norberg\Source\Repos\CookieClicker\clicker\clicker\obj\Debug\clicker.csproj.CoreCompileInputs.cache
 C:\Users\Adam Norberg\Source\Repos\CookieClicker\clicker\clicker\obj\Debug\clicker.exe
 C:\Users\Adam Norberg\Source\Repos\CookieClicker\clicker\clicker\obj\Debug\clicker.pdb
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\bin\Debug\clicker.exe.config
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\bin\Debug\clicker.exe
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\bin\Debug\clicker.pdb
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.csprojAssemblyReference.cache
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.Form1.resources
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.Properties.Resources.resources
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.csproj.GenerateResource.cache
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.csproj.CoreCompileInputs.cache
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.exe
+C:\Users\Adam Norberg\source\repos\CookieClicker2\clicker\clicker\obj\Debug\clicker.pdb

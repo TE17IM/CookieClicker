@@ -50,8 +50,13 @@
             this.button7 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -261,30 +266,82 @@
             this.textBox4.TabIndex = 23;
             this.textBox4.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
             // 
-            // progressBar1
+            // textBox5
             // 
-            this.progressBar1.Location = new System.Drawing.Point(298, 162);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.TabIndex = 24;
+            this.textBox5.Location = new System.Drawing.Point(272, 191);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(126, 26);
+            this.textBox5.TabIndex = 26;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(272, 85);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(126, 100);
+            this.richTextBox1.TabIndex = 27;
+            this.richTextBox1.Text = "";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(308, 139);
+            this.label11.Location = new System.Drawing.Point(308, 55);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(80, 20);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "Challenge";
-            this.label11.Click += new System.EventHandler(this.Label11_Click);
+            this.label11.Size = new System.Drawing.Size(38, 20);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "Tid: ";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(272, 223);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(126, 32);
+            this.button8.TabIndex = 29;
+            this.button8.Text = "[10] Vänta...";
+            this.button8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.Button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(55, 77);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(138, 39);
+            this.button9.TabIndex = 30;
+            this.button9.Text = "button9";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(13, 85);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(60, 20);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "label12";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(853, 256);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(60, 20);
+            this.label13.TabIndex = 32;
+            this.label13.Text = "label13";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1144, 423);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button7);
@@ -341,8 +398,13 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }
 

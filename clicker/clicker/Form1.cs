@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 using System.IO; // Detta är för att inkludera alla StreamReader och StreamWriter saker. Används för att "spara" och "ladda".
 // för System.IO är det mer sant att det används för att läsa av och skriva ned saker i ett dokument. Inte bara .txt då.
 
@@ -17,14 +18,14 @@ namespace clicker // Namnet på projektet.
         Timer timer = new Timer(); // Gör timern till en allmän timer.
         Timer timer2 = new Timer(); // Timer för att rensa skriv fältet för att få kakor uppgraderingen.
         Timer challenge = new Timer(); // Timer för challenge.
+        Timer kaktimer = new Timer(); // Kaka i sekunden timer.
         int xy = 2000; // Kak tid
         
         public Form1() // Vid start händer nedan.
         {
-           
             InitializeComponent();
             timer.Tick += new EventHandler(Timer_Tick); //Allt som variabeln timer gör ska hända i en void med detta namn.
-            timer.Interval = (1000); // Varje 1000 milisekund, alltså varje sekund.
+            timer.Interval = (100); // Varje 1000 milisekund, alltså varje sekund.
             timer.Enabled = true; // När programmet startar aktiveras timern.
             timer.Start(); // Timern startar då programmet startar.
             pictureBox1.Load("http://www.pngall.com/wp-content/uploads/2016/07/Cookie-PNG-Clipart-180x180.png");
@@ -32,32 +33,109 @@ namespace clicker // Namnet på projektet.
             timer2.Interval = (xy);
             timer2.Enabled = true;
             timer2.Start();
-           // challenge.Tick += new EventHandler(Challenge_Tick);
-            challenge.Interval = (100);
+            kaktimer.Tick += new EventHandler(Kak_Sekund);
+            kaktimer.Interval = (1000);
+            kaktimer.Enabled = true;
+            kaktimer.Start();
+            challenge.Tick += new EventHandler(Challenge_Tick);
+            challenge.Interval = (1000);
             challenge.Enabled = true;
             challenge.Start();
             this.textBox2.KeyPress += new KeyPressEventHandler(TextBox2_KeyPress);
         }
         public bool challengeon = false; //Ser om en challenge ska sättas igång.
-       /* void Challenge_Tick(object sender, EventArgs e)
+        Stopwatch time = new Stopwatch();
+        void Kak_Sekund(object sender, EventArgs e)
         {
-            if (progressBar1.Value <= 100) // Är det inte 100%...
+            antKakor += xx + kaka3;
+        }
+        public int tid = 10;
+        public int tid2 = 10;
+        void Challenge_Tick(object sender, EventArgs e)
+        {
+            if (tid != 0 && challengeon == true && num == 1) // Första challenge.
             {
-                progressBar1.Value += 1; // +1%
+                tid--;
+                richTextBox1.Text = "Vad är 11+3?";
+                label11.Text = "Tid: " + tid;
+                if (textBox5.Text == "14" && tid != 0 && challengeon == true)
+                {
+                    antKakor += 120;
+                    challengeon = false;
+                    tid = 10;
+                    richTextBox1.Clear();
+                    tid2 = 10;
+                    textBox5.Clear();
+                    MessageBox.Show("Rätt! 120 kakor!");
+                }
+                else if (textBox5.Text != "14" && tid == 0 && challengeon == true)
+                {
+                    challengeon = false;
+                    tid = 10;
+                    tid2 = 10;
+                    textBox5.Clear();
+                    MessageBox.Show("Fel! Inga kakor!");
+                } // Slut på första challenge.
             }
-            else if(progressBar1.Value == 100) // Är den 100%...
+            if (tid != 0 && challengeon == true && num == 2) // Andra challenge.
             {
-                challengeon = true; // challenge sätts igång.
+                tid--;
+                richTextBox1.Text = "Vad är roten ur 9?";
+                label11.Text = "Tid: " + tid;
+                if (textBox5.Text == "3" && tid != 0 && challengeon == true)
+                {
+                    antKakor += 80;
+                    challengeon = false;
+                    tid = 10;
+                    richTextBox1.Clear();
+                    tid2 = 10;
+                    textBox5.Clear();
+                    MessageBox.Show("Rätt! 80 kakor!");
+                }
+                else if (textBox5.Text != "3" && tid == 0 && challengeon == true)
+                {
+                    challengeon = false;
+                    tid = 10;
+                    tid2 = 10;
+                    textBox5.Clear();
+                    MessageBox.Show("Fel! Inga kakor!");
+                } // Slut på andra challenge.
             }
-            else if(challengeon == true) // Är challenge igång...
+            if (tid != 0 && challengeon == true && num == 3) // Tredje challenge.
             {
-                progressBar1.Value -= 1; // -1%, som en timer.
+                tid--;
+                richTextBox1.Text = "pH på en neutral lösning?";
+                label11.Text = "Tid: " + tid;
+                if (textBox5.Text == "7" && tid != 0 && challengeon == true)
+                {
+                    antKakor += 160;
+                    challengeon = false;
+                    tid = 10;
+                    richTextBox1.Clear();
+                    tid2 = 10;
+                    textBox5.Clear();
+                    MessageBox.Show("Rätt! 160 kakor!");
+                }
+                else if (textBox5.Text != "7" && tid == 0 && challengeon == true)
+                {
+                    challengeon = false;
+                    tid = 10;
+                    tid2 = 10;
+                    textBox5.Clear();
+                    MessageBox.Show("Fel! Inga kakor!");
+                } // Slut på tredje challenge.
             }
-            else if(challengeon == true && progressBar1.Value <= 0) // Är challenge på och den är 0%...
+            else if(tid2 != 0)
             {
-                challengeon = false; // Challenge av.
+                tid2--;
+                button8.Text = "[" + tid2 + "]" + " Vänta...";
             }
-        }*/
+            else if(tid2 == 0)
+            {
+                button8.Text = "Starta!";
+            }
+        }
+        
 
         void Cookie_Tick(object sender, EventArgs e) // För att skriva för kakor
         {
@@ -67,7 +145,6 @@ namespace clicker // Namnet på projektet.
          void Timer_Tick(object sender, EventArgs e) // Varje sekund händer allting här inne.
         {
             int kakaisek = xx + kaka3; // Kaka i sekunden under antalet kakor i programmet (ovanför klicka knappen).
-            antKakor += xx + kaka3; // Räknar antalet kakor så att antalet uppdaterar varje sekund. Viktigt för att se när man får mer kakor av +1kaka/sek.
             label1.Text = "Kakor = " + antKakor; //Enkel kod för att uppdatera texten med antalet kakor.
             label3.Text = "Kakor i sekunden = " + kakaisek;
             label2.Text = cks + "st.";
@@ -76,6 +153,10 @@ namespace clicker // Namnet på projektet.
             button5.Text = "[" + kakasek3 + "]" + " +2 kaka/s"; //Samma kod fast med knapp texten.
             button2.Text = "[" + kakasek + "]" + " +1 Kaka / klick";
             button3.Text = "[" + kakasek2 + "]" + " +1 kaka/s";
+            button9.Text = "[" + button9pris + "]" + " -0.2s skriv";
+            label10.Text = button7st + "st.";
+            label12.Text = button9st + "st.";
+            label13.Text = kaktid + "s";
             if (bought == false)
             {
                 label8.Text = "Köpt: " + bought;
@@ -84,7 +165,8 @@ namespace clicker // Namnet på projektet.
             {
                 label8.Text = yx + "st.";
             }
-            label10.Text = button7st + "st.";
+            
+
         }
 
         private void Form1_Load(object sender, EventArgs e) //När programmet laddas, används inte just nu.
@@ -108,7 +190,7 @@ namespace clicker // Namnet på projektet.
 
         public int cks = 0; // Räknar hur många gånger man köpt uppgraderingen "+1 kaka / klick".
         public int kakasek = 100; // Priset för uppgraderingen "+1 kaka / klick".
-
+        
         private void Button2_Click(object sender, EventArgs e) // Knappen för att köpa +1 kaka / klick uppgraderingen.
         {
             if(antKakor>=kakasek) //Om antalet kakor man har är mer eller likamed priset, händer:
@@ -181,6 +263,11 @@ namespace clicker // Namnet på projektet.
                     spara.WriteLine(cks);
                     spara.WriteLine(kaka3);
                     spara.WriteLine(textBox3.Text); //lösenordet.
+                    spara.WriteLine(bought); // skriv 4 cookies
+                    spara.WriteLine(button7st);
+                    spara.WriteLine(button7pris);
+                    spara.WriteLine(button9st);
+                    spara.WriteLine(button9pris);
                     spara.Close(); // Se till att den stängs och att allting "sparas" fullständigt.
                     MessageBox.Show("Sparat!");
                 }
@@ -235,6 +322,11 @@ namespace clicker // Namnet på projektet.
                     kakasek3 = Convert.ToInt32(lines[5]);
                     cks = Convert.ToInt32(lines[6]);
                     kaka3 = Convert.ToInt32(lines[7]);
+                    bought = Convert.ToBoolean(lines[8]);
+                    button7st = Convert.ToInt32(lines[9]);
+                    button7pris = Convert.ToInt32(lines[10]);
+                    button9st = Convert.ToInt32(lines[11]);
+                    button9pris = Convert.ToInt32(lines[12]);
                 }
                 else // har filen lösenord och man skrivit fel lösenord...
                 {
@@ -305,6 +397,7 @@ namespace clicker // Namnet på projektet.
             {
                 antKakor -= button7pris;
                 button7pris += button7pris / 2;
+                button7.Text = "[" + button7pris + "]" + " +1 skriv";
                 label10.Text = button7st + "st."; //Uppdaterar texten enligt antalet gånger man köpt den.
                 button7st++;
                 yx++;
@@ -327,6 +420,41 @@ namespace clicker // Namnet på projektet.
         private void Label11_Click(object sender, EventArgs e)
         {
             //Anänds inte just nu...
+        }
+        Random rnd = new Random();
+        public int num;
+        private void Button8_Click(object sender, EventArgs e)
+        {
+            if (tid2 != 0)
+            {
+                MessageBox.Show("Vänta!");
+            }
+            else if(tid2 == 0)
+            {
+                challengeon = true;
+                num = rnd.Next(0, 4);
+            }
+        }
+        public int button9pris = 200;
+        public int button9st = 0;
+        public double kaktid = 2;
+        private void Button9_Click(object sender, EventArgs e) // -0.2s skriv clear
+        {
+            if(antKakor>=button9pris)
+            {
+                antKakor -= button9pris;
+                button9st++;
+                button9pris += button9pris;
+                xy -= 200;
+                button9.Text = "[" + button9pris + "]" + " -0.2s skriv";
+                label12.Text = button9st + "st.";
+                kaktid -= 0.2;
+                label13.Text = kaktid + "s";
+            }
+            else if(antKakor<button9pris || button9st == 10)
+            {
+                MessageBox.Show("Du har inte råd!");
+            }
         }
     }
 }
