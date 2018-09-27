@@ -155,7 +155,7 @@ namespace clicker // Namnet på projektet.
             button9.Text = "[" + button9pris + "]" + " -0.2s skriv";
             label10.Text = button7st + "st.";
             label12.Text = button9st + "st.";
-            label13.Text = kaktid + "s";
+            label13.Text = kaktid -(0.2*button9st) + "s";
             if (bought == 1)
             {
                 label8.Text = "Köpt: " + bought;
