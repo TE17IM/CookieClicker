@@ -19,7 +19,6 @@ namespace clicker // Namnet på projektet.
         Timer timer2 = new Timer(); // Timer för att rensa skriv fältet för att få kakor uppgraderingen.
         Timer challenge = new Timer(); // Timer för challenge.
         Timer kaktimer = new Timer(); // Kaka i sekunden timer.
-        int xy = 2000; // Kak tid
         
         public Form1() // Vid start händer nedan.
         {
@@ -30,7 +29,7 @@ namespace clicker // Namnet på projektet.
             timer.Start(); // Timern startar då programmet startar.
             pictureBox1.Load("http://www.pngall.com/wp-content/uploads/2016/07/Cookie-PNG-Clipart-180x180.png");
             timer2.Tick += new EventHandler(Cookie_Tick);
-            timer2.Interval = (xy);
+            timer2.Interval = 2000;
             timer2.Enabled = true;
             timer2.Start();
             kaktimer.Tick += new EventHandler(Kak_Sekund);
@@ -157,13 +156,13 @@ namespace clicker // Namnet på projektet.
             label10.Text = button7st + "st.";
             label12.Text = button9st + "st.";
             label13.Text = kaktid + "s";
-            if (bought == false)
+            if (bought == 1)
             {
                 label8.Text = "Köpt: " + bought;
             }
-            else if(bought == true)
+            else if(bought == 2)
             {
-                label8.Text = yx + "st.";
+                label8.Text = (yx + button7st) + "st.";
             }
             
 
@@ -179,7 +178,7 @@ namespace clicker // Namnet på projektet.
             // Anvädns inte.
         }
 
-        public double antKakor = 0; // Två olika variabler för att hålla koll på antalet kakor.
+        public int antKakor = 0; // Två olika variabler för att hålla koll på antalet kakor.
         public int xx = 0; // Denna för att räkna ihop med annan kod antalet kakor i sekunden.
         
 
@@ -219,7 +218,7 @@ namespace clicker // Namnet på projektet.
         }
 
 
-        public int kakasek2 = 100; // Start priset för +1kaka / sekunden uppgraderingen.
+        public int kakasek2 = 50; // Start priset för +1kaka / sekunden uppgraderingen.
         private void Button3_Click(object sender, EventArgs e)
         {
             if(antKakor>=kakasek2) // Om man har råd (Om antalet kakor man har är större eller lika med priset, händer..:)
@@ -227,7 +226,7 @@ namespace clicker // Namnet på projektet.
                 xx++; // Texten bredvid knappen för att köpa uppgraderingen "+1 kaka / sekunden" ändras till antalet gånger man köpt den.
                 antKakor -= kakasek2; // Minskar ens pengar / kakor med priset för uppgraderingen.
                 label4.Text = xx + "st."; // Två rader upp är det denna som visar texten, xx++ gör så att den blir till +1 varje gång man köper denna.
-                kakasek2 += kakasek2 / 2; // Ökar priset med 50% av priset varje gång. Är priset 100  blir det 100 + 100/2, så 150. Sedan blir det 150 + 150/2 som är 225. osv..
+                kakasek2 += kakasek2/2; // Ökar priset med 50% av priset varje gång. Är priset 100  blir det 100 + 100/2, så 150. Sedan blir det 150 + 150/2 som är 225. osv..
                 button3.Text = "[" + kakasek2 + "]" + " +1 kaka/s"; // Texten uppdaterar på knappen enligt priset.
             }
             else // Har man inte råd händer...
@@ -322,11 +321,12 @@ namespace clicker // Namnet på projektet.
                     kakasek3 = Convert.ToInt32(lines[5]);
                     cks = Convert.ToInt32(lines[6]);
                     kaka3 = Convert.ToInt32(lines[7]);
-                    bought = Convert.ToBoolean(lines[8]);
-                    button7st = Convert.ToInt32(lines[9]);
-                    button7pris = Convert.ToInt32(lines[10]);
-                    button9st = Convert.ToInt32(lines[11]);
-                    button9pris = Convert.ToInt32(lines[12]);
+                    bought = Convert.ToInt32(lines[9]);
+                    button7st = Convert.ToInt32(lines[10]);
+                    button7pris = Convert.ToInt32(lines[11]);
+                    button9st = Convert.ToInt32(lines[12]);
+                    timer2.Interval = (2000 - (Convert.ToInt32(lines[12]))*200);
+                    button9pris = Convert.ToInt32(lines[13]);
                 }
                 else // har filen lösenord och man skrivit fel lösenord...
                 {
@@ -335,24 +335,25 @@ namespace clicker // Namnet på projektet.
             }
         }
 
-        public void PictureBox1_Click(object sender, EventArgs e)
+        public void PictureBox1_Click(object sender, EventArgs e) // kakan man klikcar på.
         {
             label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten varje gång man klickar knappen.
             antKakor += 1 + cks; //Lägger till 1 + extra kakorna om man har mer kakor / klick uppgraderingar.
         }
+
         int yx = 3; // hur många bokstäver man kan skriva i lådan.
         
         private void TextBox2_TextChanged(object sender, EventArgs e) //Lådan man skriver i.
         {
-            textBox2.MaxLength = yx; //Max antal bokstäver i lådan.
-            if (bought == true) // Om man köpt uppgraderingen...
+            textBox2.MaxLength = yx + button7st; //Max antal bokstäver i lådan.
+            if (bought == 2) // Om man köpt uppgraderingen...
             {
                 label1.Text = ("Kakor = " + antKakor); //Uppdaterar texten när man skriver.
-                antKakor += 1; //Lägger till kakor.
-                label8.Text = yx + "st.";
+                antKakor += 1 + cks; //Lägger till kakor + kakor på +1kaka / klick.
+                label8.Text = (yx + button7st) + "st.";
                 
             }
-            else if(bought == false) // Har man inte köpt den...
+            else if(bought == 1) // Har man inte köpt den...
             {
                 MessageBox.Show("Du har inte köpt uppgraderingen!");
             }
@@ -369,27 +370,27 @@ namespace clicker // Namnet på projektet.
                 e.Handled = true;
             }
         }
-        bool bought = false; // Default falskt.
+        int bought = 1; // Default falskt.
         private void Button1_Click(object sender, EventArgs e) // Köp knappen "skriv för +1 kaka".
         {
             int price = 250; // Sätter priset.
-            if (antKakor >= price && bought == false) // Har man råd och inte köpt...
+            if (antKakor >= price && bought == 1) // Har man råd och inte köpt...
             {
                 antKakor -= price;
-                bought = true;
+                bought = 2;
                 label8.Text = "Köpt: " + bought;
             }
             else if (antKakor != price) // Har man inte råd...
             {
                 MessageBox.Show("Du har inte råd!");
             }
-            else if (bought == true) // Har man redan köpt...
+            else if (bought == 2) // Har man redan köpt...
             {
                 MessageBox.Show("Du har redan köpt den!");
             }
 
         }
-        int button7st = 0;
+        public int button7st = 0;
         int button7pris = 100;
         private void Button7_Click(object sender, EventArgs e) // +1 skriv knappen.
         {
@@ -400,7 +401,6 @@ namespace clicker // Namnet på projektet.
                 button7.Text = "[" + button7pris + "]" + " +1 skriv";
                 label10.Text = button7st + "st."; //Uppdaterar texten enligt antalet gånger man köpt den.
                 button7st++;
-                yx++;
             }
             else // annars...
             {
@@ -408,11 +408,16 @@ namespace clicker // Namnet på projektet.
             }
         }
 
-        private void TextBox4_TextChanged(object sender, EventArgs e)
+        private void TextBox4_TextChanged(object sender, EventArgs e) // Fusk rutan.
         {
-            if(textBox4.Text == "kakpower")
+            if(textBox4.Text == "kakpower") // Fusk kommando.
             {
                 antKakor += 1000;
+                textBox4.Clear();
+            }
+            else if(textBox4.Text == "wololo")
+            {
+                antKakor += 100000;
                 textBox4.Clear();
             }
         }
@@ -423,37 +428,42 @@ namespace clicker // Namnet på projektet.
         }
         Random rnd = new Random();
         public int num;
-        private void Button8_Click(object sender, EventArgs e)
+        private void Button8_Click(object sender, EventArgs e) // Starta challenge knappen.
         {
-            if (tid2 != 0)
+            if (tid2 != 0) // Är tiden inte 0...
             {
                 MessageBox.Show("Vänta!");
             }
-            else if(tid2 == 0)
+            else if(tid2 == 0 && challengeon == false) // Är tiden noll och ingen challenge igång.
             {
                 challengeon = true;
                 num = rnd.Next(0, 4);
             }
+            else if(challengeon == true) // Är challenge igång.
+            {
+                MessageBox.Show("Challenge är igång!");
+            }
+
         }
         public int button9pris = 200;
         public int button9st = 0;
         public double kaktid = 2;
         private void Button9_Click(object sender, EventArgs e) // -0.2s skriv clear
         {
-            if(antKakor>=button9pris)
+            if (antKakor >= button9pris)
             {
                 antKakor -= button9pris;
                 button9st++;
                 button9pris += button9pris;
-                xy -= 200;
+                timer2.Interval -= 200;
                 button9.Text = "[" + button9pris + "]" + " -0.2s skriv";
                 label12.Text = button9st + "st.";
                 kaktid -= 0.2;
                 label13.Text = kaktid + "s";
             }
-            else if(antKakor<button9pris || button9st == 10)
+            else if (antKakor < button9pris || button9st == 10 || timer2.Interval == 200)
             {
-                MessageBox.Show("Du har inte råd!");
+                MessageBox.Show("Du har inte råd eller köpt max!");
             }
         }
     }
